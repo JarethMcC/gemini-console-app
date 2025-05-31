@@ -117,6 +117,7 @@ def main():
     parser.add_argument("-en", "--exclude-name", nargs='+', help="File names to exclude (e.g. config.json secret.txt).", default=[])
     parser.add_argument("-mb", "--max-bytes", type=int, help="Maximum total bytes to read from all files.", default=None)
     parser.add_argument("-m", "--model", default="gemini-2.0-flash", help="The Gemini model to use (e.g., gemini-2.0-flash). Default: gemini-2.0-flash")
+    parser.add_argument("-tu", "--token-usage", action="store_true", help="Print the token usage for the request and response.")
 
     args = parser.parse_args()
 
@@ -144,6 +145,16 @@ def main():
         print(f"Total size: {total_bytes:,} bytes")
         for i, file_path in enumerate(included_files):
             print(f"  {i+1}. {file_path}")
+        
+        # Display token count in dry run if requested
+        if args.token_usage:
+            configure_api() # API must be configured to count tokens
+            try:
+                temp_model = genai.GenerativeModel(args.model)
+                token_count = temp_model.count_tokens(final_prompt)
+                print(f"\nEstimated prompt token count: {token_count.total_tokens}")
+            except Exception as e:
+                print(f"\nCould not estimate token count: {e}")
         return
 
     configure_api()
@@ -164,6 +175,22 @@ def main():
             # Attempt to print the raw response for debugging if text extraction fails
             print(f"Raw response: {response}")
 
+        if args.token_usage:
+            print("\n--- Token Usage ---")
+            # Prompt tokens can be counted directly or taken from response metadata if available
+            prompt_token_count = model.count_tokens(final_prompt).total_tokens
+            print(f"Prompt Tokens: {prompt_token_count}")
+
+            if hasattr(response, 'usage_metadata') and response.usage_metadata:
+                print(f"Response Prompt Tokens (from API): {response.usage_metadata.prompt_token_count}")
+                print(f"Candidates Tokens (from API): {response.usage_metadata.candidates_token_count}")
+                print(f"Total Tokens (from API): {response.usage_metadata.total_token_count}")
+            else:
+                # If not in metadata, count response tokens manually (less accurate for some models/nuances)
+                response_token_count = model.count_tokens(response_text).total_tokens
+                print(f"Response Tokens (counted): {response_token_count}")
+                print(f"Total Tokens (estimated): {prompt_token_count + response_token_count}")
+            print("--------------------")
 
         if args.output:
             try:

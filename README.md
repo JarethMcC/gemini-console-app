@@ -14,6 +14,7 @@ This command-line tool allows you to interact with Google's Gemini AI API, easil
 - Skip binary files automatically
 - Supports API key via `.env` file, environment variable.
 - Customizable model selection.
+- Display token usage for prompt and response.
 
 ## Prerequisites
 
@@ -68,6 +69,7 @@ python gemini_cli.py "your question here" [options]
 - `-en, --exclude-name [NAME...]`: Exclude files with these names (e.g. config.json)
 - `-mb, --max-bytes BYTES`: Maximum total bytes to read from files
 - `-m, --model MODEL_NAME`: Specify the Gemini model to use (default: `gemini-2.0-flash`). Check Google AI documentation for available models.
+- `-tu, --token-usage`: Print the token usage for the request and response.
 
 ### Examples
 
@@ -122,6 +124,11 @@ python gemini_cli.py "Translate this to French:" -f document.txt --model gemini-
 ```
 (Note: Replace `gemini-pro` with a model name confirmed to be available for your API key and version.)
 
+**Check token usage:**
+```
+python gemini_cli.py "Summarize this document:" -f report.txt --token-usage
+```
+
 ## File Formatting
 
 When files are included in your prompt, they are formatted as:
@@ -149,3 +156,4 @@ This helps the AI understand the context and structure of your files.
 - For large directories, use `--max-bytes` to limit the total content size
 - Use `--exclude-ext` to skip binary or irrelevant file types like images or compiled files
 - Using a `.env` file is a convenient way to manage your API key without setting system-wide environment variables.
+- Use `--token-usage` to understand the cost and limits of your API calls. Token counts are also displayed in dry-run mode if this flag is active.

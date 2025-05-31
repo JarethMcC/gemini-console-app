@@ -67,7 +67,7 @@ python gemini_cli.py "your question here" [options]
 - `-ee, --exclude-ext [EXT...]`: Exclude files with these extensions (e.g. .jpg .exe)
 - `-en, --exclude-name [NAME...]`: Exclude files with these names (e.g. config.json)
 - `-mb, --max-bytes BYTES`: Maximum total bytes to read from files
-- `-m, --model MODEL_NAME`: Specify the Gemini model to use (default: `gemini-1.0-pro`). Check Google AI documentation for available models.
+- `-m, --model MODEL_NAME`: Specify the Gemini model to use (default: `gemini-2.0-flash`). Check Google AI documentation for available models.
 
 ### Examples
 

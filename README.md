@@ -1,6 +1,7 @@
 # Gemini CLI Assistant
 
-This command-line tool allows you to interact with Google's Gemini AI API, easily including file and directory contents in your prompts.
+This command-line tool allows you to interact with Google's Gemini AI API, easily including file and directory contents in your prompts. 
+Another use case of this tool is to use it predominantly for the dryrun functionality. This allows you to preview the prompt that will be sent to the Gemini API without actually sending it, this can be copied and pasted into any LLM.
 
 ## Features
 

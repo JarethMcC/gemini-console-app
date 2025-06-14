@@ -118,6 +118,7 @@ def main():
     parser.add_argument("-mb", "--max-bytes", type=int, help="Maximum total bytes to read from all files.", default=None)
     parser.add_argument("-m", "--model", default="gemini-2.0-flash", help="The Gemini model to use (e.g., gemini-2.0-flash). Default: gemini-2.0-flash")
     parser.add_argument("-tu", "--token-usage", action="store_true", help="Print the token usage for the request and response.")
+    parser.add_argument("-mw", "--max-words", default=50, type=int, help="Maximum words for the AI's answer (e.g., 50). If specified, 'answer in X words or less' will be appended to the prompt.")
 
     args = parser.parse_args()
 
@@ -135,6 +136,9 @@ def main():
         prompt_parts.append("\n\n" + "\n\n".join(file_contents_formatted))
 
     final_prompt = "".join(prompt_parts)
+    
+    if args.max_words: # Check if max_words argument is provided
+        final_prompt += f" answer in {args.max_words} words or less"
 
     if args.dry_run:
         print("--- Prompt for AI (Dry Run) ---")

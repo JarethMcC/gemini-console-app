@@ -1,5 +1,7 @@
 # Gemini CLI Assistant
 
+I wrote this for myself to use with an alias in my terminal for asking Gemini quick questions while programming in the terminal, hence the 50 word default response limit.
+
 This command-line tool allows you to interact with Google's Gemini AI API, easily including file and directory contents in your prompts. 
 Another use case of this tool is to use it predominantly for the dryrun functionality. This allows you to preview the prompt that will be sent to the Gemini API without actually sending it, this can be copied and pasted into any LLM.
 
